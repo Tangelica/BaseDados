@@ -99,12 +99,12 @@ public class Menu {
 		}
 		System.out.println("Dia da festa:");
 		int dia_festa=sci.nextInt();
-		System.out.println("Mês da Festa:");
+		System.out.println("Mes da Festa:");
 		int mes_festa=sci.nextInt();
 		System.out.println("Ano da Festa:");
 		int ano_festa=sci.nextInt();
 		while (true){
-			System.out.println("Já realizou o pagamento final?:");
+			System.out.println("Ja realizou o pagamento final?:");
 			String pfinal=scs.nextLine();
 			if (pfinal.equalsIgnoreCase("Sim")) {
 				pag_final=true;
