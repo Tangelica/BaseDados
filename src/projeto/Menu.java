@@ -5,11 +5,16 @@ public class Menu {
 	Connector cn = new Connector();
 	//Imprime o menu principal e retorna a opcao escolhida
 	protected int menuPrincipal() {
-		int op;
+		int op=-1;
 		System.out.println("Menu Principal: \n1-Clientes \n2-Locais de Festas \n3-Festas \n4-Atividades \n5-Aniversariantes "
 				+ "\n6-Gestao de Preferencias \n7- Gestão de Animadoras \n0-Sair");
 		Scanner sc = new Scanner(System.in);
-		op=sc.nextInt();
+		try {
+			op=sc.nextInt();
+		}catch(Exception e){
+			System.out.println("Tem de inserir um número!");
+		} //ver como é com os espaços e enters vazios
+		
 		return op;
 	}
 	//Imprime o menu de clientes e retorna a opcao escolhida
@@ -35,28 +40,33 @@ public class Menu {
 		Scanner scs = new Scanner(System.in);
 		System.out.println("Nome do cliente:");
 		String nome=scs.nextLine();
-		//Vai tentar usar o scanner para ir buscar o NIF. Se tentares colocar texto dá erro e manda-te para a seccao de catch, se meteres um numero continua no try
-		try {
-			System.out.println("NIF do cliente:");
-			int nif=sci.nextInt();
-			int verifica_NIF=cn.verificaNIF(nif); //verifica se já existe algum NIF na base de dados igual ao do novo cliente
-			if (verifica_NIF==0) {
-				try {//se não houver, pede o contacto. Se meteres um contacto válido continua a pedir os restantes dados, se não imprime a mensagem de erro e gera um cliente null.
-					System.out.println("Contacto do cliente:");
-					int contacto=sci.nextInt();
-					System.out.println("Email do cliente:");
-					String email=scs.nextLine();
-					c1 = new Cliente(nif,contacto,nome,email); //Gera o Cliente com os dados fornecidos.
-				}catch (Exception e) {
-					System.out.println("Contacto Invalido!");
-				}
+		if (nome.length()!=0) {
+			//Vai tentar usar o scanner para ir buscar o NIF. Se tentares colocar texto dá erro e manda-te para a seccao de catch, se meteres um numero continua no try
+			try {
+				System.out.println("NIF do cliente:");
+				int nif=sci.nextInt();
+				int verifica_NIF=cn.verificaNIF(nif); //verifica se já existe algum NIF na base de dados igual ao do novo cliente
+				if (verifica_NIF==0) {
+					try {//se não houver, pede o contacto. Se meteres um contacto válido continua a pedir os restantes dados, se não imprime a mensagem de erro e gera um cliente null.
+						System.out.println("Contacto do cliente:");
+						int contacto=sci.nextInt();
+						System.out.println("Email do cliente:");
+						String email=scs.nextLine();
+						if (email.length()!=0) {
+							c1 = new Cliente(nif,contacto,nome,email); //Gera o Cliente com os dados fornecidos.
+						}
+					}catch (Exception e) {
+						System.out.println("Contacto Invalido!");
+					}
+					
+				}else
+					System.out.println("O NIF Fornecido já foi registado!");
 				
-			}else
-				System.out.println("O NIF Fornecido já foi registado!");
-			
-		}catch (Exception e) {
-			System.out.println("NIF Invalido!");
+			}catch (Exception e) {
+				System.out.println("NIF Invalido!");
+			}
 		}
+		
 		return c1; //Devolve o Cliente criado.
 	}
 	

@@ -26,7 +26,7 @@ public class Executar {
 					if (cl!= null) { //garante que foi gerado um cliente com todos os dados.
 						int nif =cl.getNif(); //usas os gets para ir buscar a informacao do cliente.
 						int contacto =cl.getContacto();
-						String nome = cl.nome;
+						String nome = cl.getNome();
 						String email =cl.getEmail();
 						c.insereCliente(nome, nif, contacto, email); //utiliza a classe de ligacao a BD para inserir o cliente na BD
 					}

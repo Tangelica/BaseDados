@@ -2,10 +2,10 @@ package projeto;
 
 public class Cliente {
 	//variaveis utilizadas para definir um cliente.
-	protected int nif;
-	protected int contacto;
-	protected String nome;
-	protected String email;
+	private int nif;
+	private int contacto;
+	private String nome;
+	private String email;
 	
 	//construtor da classe - serve para criar um objecto desta classe, neste caso cria clientes.
 	protected Cliente(int nif, int contacto, String nome, String email) {

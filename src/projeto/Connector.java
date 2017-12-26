@@ -23,7 +23,9 @@ public class Connector {
 			while (rs.next()) {
 				String nome = rs.getString("Nome");
 				int nif = rs.getInt("NIF");
-				System.out.println("Nome: "+nome+"        NIF: "+nif); // meter isto bonito
+				int contacto= rs.getInt("Contacto");
+				String email=rs.getString("Email");
+				System.out.println("Nome: "+nome+"        NIF: "+nif+"        Contacto:"+contacto+"         email:"+email+"\n"); // meter isto bonito
 			}
 			
 		} catch (SQLException e) {
@@ -69,16 +71,29 @@ public class Connector {
 	protected int procuraNIF(String Nome) {
 		try {
 			int nif=0;
+			int num=0;
 			connection= DriverManager.getConnection(connectionString,username,password);
 			command= connection.createStatement();
 			
-			String query1 = "Select * from CLIENTES Where NOME='"+Nome+"'";
+			String query1 = "Select * from CLIENTES Where NOME Like '"+Nome+"%'";
 			
 			Statement st = connection.createStatement();
 			ResultSet rs = st.executeQuery(query1);
-			if (rs.next()==true) //se existir algum cliente com aquele Nome, a variavel nif fica com o NIF dessa pessoa.
-				nif=rs.getInt("NIF");
+			
+			
+			while (rs.next()) {
+				nif = rs.getInt("NIF");
+				String nome=rs.getString("NOME");
+				System.out.println(num+"   "+nome+"     "+ nif);
+				num++;
+			}
+			
+			//meter um scanner do numero do nif que quero e mover o cursor para essa linha. como é que mexo o cursor????
+			
 			return nif;
+			/*if (rs.next()==true) //se existir algum cliente com aquele Nome, a variavel nif fica com o NIF dessa pessoa.
+				nif=rs.getInt("NIF");
+			return nif;*/
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
