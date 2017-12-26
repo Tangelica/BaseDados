@@ -15,8 +15,9 @@ public class Festa {
 	private String comida;
 	private String tema;
 	private double preco;
+	private double preco_contratado;
 	protected Festa(int id_festa, int id_local, int id_atividade, int nif, boolean entrada, int dia_festa, int mes_festa,
-			int ano_festa, boolean pag_final, String convite, String decoracao, String comida, String tema, double preco) {
+			int ano_festa, boolean pag_final, String convite, String decoracao, String comida, String tema, double preco, double preco_contratado) {
 		super();
 		this.id_festa = id_festa;
 		this.id_local = id_local;
@@ -32,6 +33,7 @@ public class Festa {
 		this.comida = comida;
 		this.tema = tema;
 		this.preco = preco;
+		this.preco_contratado=preco_contratado;
 	}
 	protected int getId_festa() {
 		return id_festa;

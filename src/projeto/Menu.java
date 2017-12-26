@@ -1,7 +1,9 @@
 package projeto;
 import java.util.*;
 public class Menu {
+	//Vai buscar a classe de ligacao a base de dados
 	Connector cn = new Connector();
+	//Imprime o menu principal e retorna a opcao escolhida
 	protected int menuPrincipal() {
 		int op;
 		System.out.println("Menu Principal: \n1-Clientes \n2-Locais de Festas \n3-Festas \n4-Atividades \n5-Aniversariantes "
@@ -10,7 +12,7 @@ public class Menu {
 		op=sc.nextInt();
 		return op;
 	}
-	
+	//Imprime o menu de clientes e retorna a opcao escolhida
 	protected int menuClientes() {
 		int op;
 		Scanner sc = new Scanner(System.in);
@@ -18,7 +20,7 @@ public class Menu {
 		op=sc.nextInt();
 		return op;
 	}
-	
+	//Imprime o menu de alteracao de dados de clientes e retorna a opcao escolhida
 	protected int menuAlterarCliente() {
 		int op;
 		Scanner sc = new Scanner(System.in);
@@ -26,24 +28,25 @@ public class Menu {
 		op=sc.nextInt();
 		return op;
 	}
-	
+	//Imprime o menu de adicionar clientes e retorna a opcao escolhida
 	protected Cliente adicionarClientes() {
 		Cliente c1 = null;
 		Scanner sci = new Scanner(System.in);
 		Scanner scs = new Scanner(System.in);
 		System.out.println("Nome do cliente:");
 		String nome=scs.nextLine();
+		//Vai tentar usar o scanner para ir buscar o NIF. Se tentares colocar texto dá erro e manda-te para a seccao de catch, se meteres um numero continua no try
 		try {
 			System.out.println("NIF do cliente:");
 			int nif=sci.nextInt();
-			int verifica_NIF=cn.verificaNIF(nif);
+			int verifica_NIF=cn.verificaNIF(nif); //verifica se já existe algum NIF na base de dados igual ao do novo cliente
 			if (verifica_NIF==0) {
-				try {
+				try {//se não houver, pede o contacto. Se meteres um contacto válido continua a pedir os restantes dados, se não imprime a mensagem de erro e gera um cliente null.
 					System.out.println("Contacto do cliente:");
 					int contacto=sci.nextInt();
 					System.out.println("Email do cliente:");
 					String email=scs.nextLine();
-					c1 = new Cliente(nif,contacto,nome,email);
+					c1 = new Cliente(nif,contacto,nome,email); //Gera o Cliente com os dados fornecidos.
 				}catch (Exception e) {
 					System.out.println("Contacto Invalido!");
 				}
@@ -54,9 +57,10 @@ public class Menu {
 		}catch (Exception e) {
 			System.out.println("NIF Invalido!");
 		}
-		return c1;
+		return c1; //Devolve o Cliente criado.
 	}
 	
+	//Imprime o menu de festas e retorna a opcao escolhida
 	protected int menuFestas() {
 		int op;
 		Scanner sc = new Scanner(System.in);
@@ -65,6 +69,7 @@ public class Menu {
 		return op;
 	}
 	
+	//Imprime o menu de adicionar festas e retorna a opcao escolhida
 	protected Festa adicionarFestas(){
 		int id_festa;
 		while (true) {
@@ -124,13 +129,14 @@ public class Menu {
 		System.out.println("Descricao do Tema:");
 		String tema=scs.nextLine();
 		System.out.println("Descricao do Tema:");
-		Double preco=sci.nextDouble();
-		Festa f1 = new Festa(id_festa, id_local, id_atividade, nif, entrada, dia_festa, mes_festa, ano_festa, pag_final, convite, decoracao, comida, tema, preco);
+		double preco=sci.nextDouble();
+		double preco_contratado = sci.nextDouble();
+		Festa f1 = new Festa(id_festa, id_local, id_atividade, nif, entrada, dia_festa, mes_festa, ano_festa, pag_final, convite, decoracao, comida, tema, preco,preco_contratado);
 		return f1;
 		
 	}
 	
-	
+	//Imprime o menu de locais e retorna a opcao escolhida
 	protected int menuLocais() {
 		int op;
 		Scanner sc = new Scanner(System.in);
@@ -139,6 +145,7 @@ public class Menu {
 		return op;
 	}
 	
+	//Imprime o menu de adicionar locais e retorna a opcao escolhida
 	protected Local adicionarLocal() {
 		Scanner scs = new Scanner(System.in);
 		int id_local;
@@ -180,6 +187,7 @@ public class Menu {
 		return l1;
 	}
 	
+	//Imprime o menu de atividades e retorna a opcao escolhida
 	protected int menuAtividades() {
 		int op;
 		Scanner sc = new Scanner(System.in);
@@ -188,6 +196,7 @@ public class Menu {
 		return op;
 	}
 	
+	//Imprime o menu de adicionar atividades e retorna a opcao escolhida
 	protected Atividade adicionarAtividade() {
 		int id_atividade;
 		while (true) {

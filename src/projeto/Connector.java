@@ -3,25 +3,23 @@ package projeto;
 import java.sql.*;
 
 public class Connector {
+	//dados de acesso a BD do MySQL
 	private static String username = "2014198300";
 	private static String password = "miau1234";
-	
 	private static String connectionString = "jdbc:mysql://delta.deec.uc.pt:3306/bd_2014198300";
 	private static Connection connection;
 	private static Statement command;
 
+	//Vai buscar o nome e o NIF de todos os clientes (quando eu puser isto bonito vai sair com todas as info)
 	protected void leClientes() {
 		try {
 			connection= DriverManager.getConnection(connectionString,username,password);
 			command= connection.createStatement();
 			
 			String query1 = "SELECT * From CLIENTES";
-			
 			Statement st = connection.createStatement();
-			
 			ResultSet rs = st.executeQuery(query1);
-			
-			
+
 			while (rs.next()) {
 				String nome = rs.getString("Nome");
 				int nif = rs.getInt("NIF");
@@ -33,6 +31,7 @@ public class Connector {
 		}
 	}
 	
+	//insere os clientes na base de dados
 	protected void insereCliente(String nome,int nif,int contacto, String email) {
 		try {
 			connection= DriverManager.getConnection(connectionString,username,password);
@@ -50,6 +49,7 @@ public class Connector {
 		
 	}
 	
+	//elimina um cliente da base de dados
 	protected void eliminaCliente(int nif) {
 		try {
 			connection= DriverManager.getConnection(connectionString,username,password);
@@ -65,6 +65,7 @@ public class Connector {
 		}
 	}
 	
+	//procura o NIF de um cliente através do seu Nome
 	protected int procuraNIF(String Nome) {
 		try {
 			int nif=0;
@@ -75,7 +76,7 @@ public class Connector {
 			
 			Statement st = connection.createStatement();
 			ResultSet rs = st.executeQuery(query1);
-			if (rs.next()==true)
+			if (rs.next()==true) //se existir algum cliente com aquele Nome, a variavel nif fica com o NIF dessa pessoa.
 				nif=rs.getInt("NIF");
 			return nif;
 			
@@ -85,6 +86,7 @@ public class Connector {
 		}
 	}
 	
+	//verifica se determinado nif existe na base de dados
 	protected int verificaNIF(int nif) {
 		try {
 			int ver=0;
@@ -96,7 +98,7 @@ public class Connector {
 			Statement st = connection.createStatement();
 			ResultSet rs = st.executeQuery(query1);
 			if (rs.next()==true)
-				ver=1;
+				ver=1; //se o NIF existir na base de dados a variavel ver fica com valor 1, caso contrario mantem o valor 0.
 			return ver;
 			
 		} catch (SQLException e) {
@@ -105,6 +107,7 @@ public class Connector {
 		}
 	}
 	
+	//altera o nome de um cliente associado a um determinado NIF
 	protected void alteraNome(int nif, String Nome) {
 		try {
 			connection= DriverManager.getConnection(connectionString,username,password);
@@ -120,6 +123,7 @@ public class Connector {
 		}
 	}
 	
+	//altera o contacto de um cliente associado a um determinado NIF
 	protected void alteraContacto(int nif, int Contacto) {
 		try {
 			connection= DriverManager.getConnection(connectionString,username,password);
@@ -134,6 +138,7 @@ public class Connector {
 		}
 	}
 	
+	//altera o email de um cliente associado a um determinado NIF
 	protected void alteraEmail(int nif, String Email) {
 		try {
 			connection= DriverManager.getConnection(connectionString,username,password);

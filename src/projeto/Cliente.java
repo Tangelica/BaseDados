@@ -1,11 +1,13 @@
 package projeto;
 
 public class Cliente {
+	//variaveis utilizadas para definir um cliente.
 	protected int nif;
 	protected int contacto;
 	protected String nome;
 	protected String email;
-		
+	
+	//construtor da classe - serve para criar um objecto desta classe, neste caso cria clientes.
 	protected Cliente(int nif, int contacto, String nome, String email) {
 		super();
 		this.nif = nif;
@@ -14,6 +16,10 @@ public class Cliente {
 		this.email = email;
 	}
 
+	
+	//As funcoes do tipo get vao servir para a partir de um cliente tu conseguires aceder aos valores das variaveis caracteristicas. (nif, contacto, ...)
+	//As funcoes do tipo set sao para fazer alteracoes ao objecto cliente (eu pus pelo hábito, porque acho que não vamos utilizar no projecto)
+	
 	protected int getNif() {
 		return nif;
 	}
