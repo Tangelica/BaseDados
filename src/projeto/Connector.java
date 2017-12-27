@@ -1,6 +1,7 @@
 package projeto;
 
 import java.sql.*;
+import java.util.Scanner;
 
 public class Connector {
 	//dados de acesso a BD do MySQL
@@ -71,7 +72,7 @@ public class Connector {
 	protected int procuraNIF(String Nome) {
 		try {
 			int nif=0;
-			int num=0;
+			int num=1;
 			connection= DriverManager.getConnection(connectionString,username,password);
 			command= connection.createStatement();
 			
@@ -88,12 +89,16 @@ public class Connector {
 				num++;
 			}
 			
-			//meter um scanner do numero do nif que quero e mover o cursor para essa linha. como é que mexo o cursor????
+			System.out.println("Em qual pretende fazer a alteracao?");
+			Scanner sci=new Scanner(System.in);
+			int op=sci.nextInt();
+			
+			rs.absolute(op);
+			nif=rs.getInt("NIF");
+
 			
 			return nif;
-			/*if (rs.next()==true) //se existir algum cliente com aquele Nome, a variavel nif fica com o NIF dessa pessoa.
-				nif=rs.getInt("NIF");
-			return nif;*/
+
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
