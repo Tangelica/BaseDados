@@ -3,10 +3,10 @@ package projeto;
 public class Atividade {
 	private int id_atividade;
 	private String jogo;
-	private boolean insuflavel;
-	private boolean magico;
+	private int insuflavel;
+	private int magico;
 	
-	public Atividade(int id_atividade, String jogo, boolean insuflavel, boolean magico) {
+	public Atividade(int id_atividade, String jogo, int insuflavel, int magico) {
 		super();
 		this.id_atividade = id_atividade;
 		this.jogo = jogo;
@@ -30,19 +30,19 @@ public class Atividade {
 		this.jogo = jogo;
 	}
 
-	public boolean isInsuflavel() {
+	public int getInsuflavel() {
 		return insuflavel;
 	}
 
-	public void setInsuflavel(boolean insuflavel) {
+	public void setInsuflavel(int insuflavel) {
 		this.insuflavel = insuflavel;
 	}
 
-	public boolean isMagico() {
+	public int getMagico() {
 		return magico;
 	}
 
-	public void setMagico(boolean magico) {
+	public void setMagico(int magico) {
 		this.magico = magico;
 	}
 	

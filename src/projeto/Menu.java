@@ -3,6 +3,7 @@ import java.util.*;
 public class Menu {
 	//Vai buscar a classe de ligacao a base de dados
 	Connector cn = new Connector();
+	Data d=new Data();
 	//Imprime o menu principal e retorna a opcao escolhida
 	protected int menuPrincipal() {
 		int op=-1;
@@ -13,7 +14,7 @@ public class Menu {
 			op=sc.nextInt();
 		}catch(Exception e){
 			System.out.println("Tem de inserir um número!");
-		} //ver como é com os espaços e enters vazios
+		} //ver como é com os espaços
 		
 		return op;
 	}
@@ -21,7 +22,7 @@ public class Menu {
 	protected int menuClientes() {
 		int op;
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Menu Clientes: \n1-Adicionar Cliente \n2-Remover Cliente \n3-Alterar dados de um cliente \n4-Listar clientes");
+		System.out.println("Menu Clientes: \n1-Adicionar Cliente \n2-Remover Cliente \n3-Alterar dados de um cliente \n4-Listar clientes \n5-Listar Clientes por Nome");
 		op=sc.nextInt();
 		return op;
 	}
@@ -81,36 +82,67 @@ public class Menu {
 	
 	//Imprime o menu de adicionar festas e retorna a opcao escolhida
 	protected Festa adicionarFestas(){
+		Scanner sci = new Scanner(System.in);
+		Scanner scs = new Scanner(System.in);
 		int id_festa;
 		while (true) {
 			Random rand=new Random();
 			id_festa=rand.nextInt(1000);
-			//adicionar funcao de procura no SQL
-			break;
+			if (cn.verificaIDFesta(id_festa)!=1)
+				break;
 		}
-		int id_local=2; //adicionar funcao de procura no SQL
+		int id_local;
+		System.out.println("Qual o tipo de local onde se vai realizar a festa?");
+		System.out.println("Sede \nCasamento \nParticular \nNovo(caso ainda nao esteja inserido na base de dados)");
+		String tipo=scs.nextLine();
+		if (tipo.equalsIgnoreCase("Novo")){
+			Local l1=adicionarLocal();
+			cn.insereLocal(l1);
+			id_local=l1.getId_local();
+		}
+		else {
+			id_local=cn.procuraLocal(tipo);
+		}
+		
 		int id_atividade=3; //adicionar funcao de procura no sql
-		boolean entrada;
-		boolean pag_final;
-		Scanner sci = new Scanner(System.in);
-		Scanner scs = new Scanner(System.in);
-		System.out.println("Local:");
-		String local=scs.nextLine();
-		System.out.println("Atividade:");
-		String atividade=scs.nextLine();
-		System.out.println("NIF do cliente:");
-		int nif=sci.nextInt();
+		int entrada;
+		int pag_final;
+		System.out.println("O cliente ja esta na base de dados?");
+		String rp=scs.nextLine();
+		int nif;
+		if (rp.equalsIgnoreCase("Sim")) {
+			System.out.println("Nome do cliente:");
+			String nome=scs.nextLine();
+			nif=cn.procuraNIF(nome);
+		}else {
+			Cliente c1 = adicionarClientes();
+			String nome=c1.getNome();
+			nif=c1.getNif();
+			int contacto=c1.getContacto();
+			String email=c1.getEmail();
+			cn.insereCliente(nome, nif, contacto, email);
+		}
+			
+		
+		String data_entrada="0000-00-00";
 		while (true) {
 			System.out.println("Pagou entrada:");
 			String sinal=scs.nextLine();
 			if (sinal.equalsIgnoreCase("Sim")) {
-				entrada=true;
+				entrada=1;
+				System.out.println("Dia do pagamento:");
+				int diaP=sci.nextInt();
+				System.out.println("Mes do pagamento:");
+				int mesP=sci.nextInt();
+				System.out.println("Ano do pagamento:");
+				int anoP=sci.nextInt();
+				data_entrada=d.StringData(diaP, mesP, anoP);
 				break;
-			}	
-			if (sinal.equalsIgnoreCase("Nao")) {
-				entrada=false;
+			}else if (sinal.equalsIgnoreCase("Nao")) {
+				entrada=0;
 				break;
-			}			
+			}else
+				System.out.println("Resposta Invalida! Insira Sim/Nao ");
 		}
 		System.out.println("Dia da festa:");
 		int dia_festa=sci.nextInt();
@@ -118,17 +150,18 @@ public class Menu {
 		int mes_festa=sci.nextInt();
 		System.out.println("Ano da Festa:");
 		int ano_festa=sci.nextInt();
+		String data_festa=d.StringData(dia_festa, mes_festa, ano_festa);
 		while (true){
 			System.out.println("Ja realizou o pagamento final?:");
 			String pfinal=scs.nextLine();
 			if (pfinal.equalsIgnoreCase("Sim")) {
-				pag_final=true;
+				pag_final=1;
 				break;
-			}	
-			if (pfinal.equalsIgnoreCase("Nao")) {
-				pag_final=false;
+			}else if (pfinal.equalsIgnoreCase("Nao")) {
+				pag_final=0;
 				break;
-			}
+			}else
+				System.out.println("Resposta Invalida! Insira Sim/Nao ");
 		}
 		System.out.println("Descricao do Convite:");
 		String convite=scs.nextLine();
@@ -138,19 +171,28 @@ public class Menu {
 		String comida=scs.nextLine();
 		System.out.println("Descricao do Tema:");
 		String tema=scs.nextLine();
-		System.out.println("Descricao do Tema:");
+		System.out.println("Valor da Festa:");
 		double preco=sci.nextDouble();
+		System.out.println("Preco Contratado com o Cliente:");
 		double preco_contratado = sci.nextDouble();
-		Festa f1 = new Festa(id_festa, id_local, id_atividade, nif, entrada, dia_festa, mes_festa, ano_festa, pag_final, convite, decoracao, comida, tema, preco,preco_contratado);
+		Festa f1=new Festa(id_festa, id_local, id_atividade, nif, entrada, data_entrada, pag_final, convite, decoracao, comida, tema, preco, preco_contratado, data_festa);
 		return f1;
 		
+	}
+	
+	protected int menuAlterarFesta() {
+		int op;
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Menu Alterar Dados Festa: \n1-Adicionar Pagamento Entrada \n2-Adicionar Pagamento Final \n3-Alterar Decoracao \n4-Alterar Convite \n5-Alterar Tema \n6-Alterar Comida");
+		op=sc.nextInt();
+		return op;
 	}
 	
 	//Imprime o menu de locais e retorna a opcao escolhida
 	protected int menuLocais() {
 		int op;
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Menu Clientes: \n1-Adicionar Local \n2-Remover Local \n3-Alterar dados de um local \n4-Listar locais");
+		System.out.println("Menu Clientes: \n1-Adicionar Local \n2-Remover Local \n3-Alterar dados de um local \n4-Listar todos locais \n5-Listar locais por tipo");
 		op=sc.nextInt();
 		return op;
 	}
@@ -162,14 +204,16 @@ public class Menu {
 		String morada;
 		String tipo;
 		String nome;
-		while (true) {
+		while (true) {  //gera o id de local aleatorio e verifica se ele existe na BD
 			Random rand=new Random();
 			id_local=rand.nextInt(1000);
-			//adicionar funcao de procura no SQL
-			break;
+			int ver = cn.verificaIDLocal(id_local);
+			if (ver!=1)
+				break;
 		}
 		while (true) {
 			System.out.println("Tipo de Festa:");
+			System.out.println("Sede \nCasamento \nParticular");
 			tipo=scs.nextLine();
 			if (tipo.equalsIgnoreCase("Sede")) {
 				morada="sede";
@@ -189,9 +233,6 @@ public class Menu {
 				nome="Particular";
 				break;
 			}
-			else
-				System.out.println("Tipo de Festa:");
-				tipo=scs.nextLine();
 		}
 		Local l1=new Local(id_local,nome,morada, tipo);
 		return l1;
@@ -212,11 +253,11 @@ public class Menu {
 		while (true) {
 			Random rand=new Random();
 			id_atividade=rand.nextInt(1000);
-			//adicionar funcao de procura no SQL
-			break;
+			if (cn.verificaIDAtividade(id_atividade)!=1);
+				break;
 		}
-		boolean insuflavel=false;
-		boolean magico=false;
+		int insuflavel=0;
+		int magico=0;
 		Scanner scs = new Scanner(System.in);
 		System.out.println("Jogo a ser feito:");
 		String jogo=scs.nextLine();
@@ -225,20 +266,73 @@ public class Menu {
 			System.out.println("Vai ser utilizado o insuflavel ou o magico?");
 			String op =scs.nextLine();
 			if (op.equalsIgnoreCase("Insuflavel")) {
-				insuflavel=true;
+				insuflavel=1;
 				break;
 			}
 			else if (op.equalsIgnoreCase("Magico")) {
-				magico=true;
+				magico=1;
 				break;
-			}
-			else {
-				System.out.println("Vai ser utilizado o insuflavel ou o magico?");
-				op =scs.nextLine();
-			}
+			}else
+				System.out.println("Opcao Invalida");
 		}
 		
 		Atividade a1 = new Atividade(id_atividade,jogo,insuflavel,magico);
 		return a1;
 	}
-}
+	//Imprime o menu de Aniversariantes 
+	protected int menuAniversariantes() {
+		int op;
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Aniversariantes: \n1-Adicionar Aniversariante \n2-Remover Aniversariante \n3-Alterar dados de um Aniversariante \n4-Listar Aniversariante por nome ");
+		op=sc.nextInt();
+		return op;
+	}
+	//Imprime adicionar Aniversariantes
+	protected Aniversariante adicionarAniversariantes() {
+		Aniversariante c1 = null;
+		Scanner sci = new Scanner(System.in);
+		Scanner scs = new Scanner(System.in);
+		int id_aniversariante;
+		while (true) {
+			Random rand=new Random();
+			id_aniversariante=rand.nextInt(1000);
+			//adicionar funcao de procura no SQL
+			break;
+		}
+		System.out.println("Nome do Aniversariante");
+		String nome=scs.nextLine();
+		System.out.println("Idade do Aniversariante");
+		int idade = sci.nextInt();
+		System.out.println("Insira possiveis alergias");
+		String alergia =scs.nextLine();
+		System.out.println("Insira dia de nascimento");
+		int dia= sci.nextInt();
+		System.out.println("Insira mes de nascimento");
+		int mes= sci.nextInt();
+		System.out.println("Insira ano de nascimento");
+		int ano =sci.nextInt();
+		//acrecentar data
+		int data= 2;
+		//c1 = new Aniversariante(id_aniversariante, idade, nome, data, alergia); //criar classe aniversariante
+		
+		
+		return c1; //Devolve o Aniversariante criado.
+		}
+
+	//Imprime o menu Gestão de Preferencias
+	protected int menuPreferencias() {
+		int op;
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Gestão de Preferencias: \n1-Adicionar Preferencias \n2-Remover Preferencias \n3-Alterar Preferencias \n4-Listar Preferencias por   ");
+		op=sc.nextInt();
+		return op;
+	}
+	//Imprime o menu Gestão de Animadoras
+	protected int menuAnimadoras() {
+		int op;
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Gestão de Animadoras: \n1-Adicionar Animadoras \n2-Remover Animadoras \n3-Alterar dadados de Animadoras \n4-Listar Animadoras por   ");
+		op=sc.nextInt();
+		return op;
+	}
+	}

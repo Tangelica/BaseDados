@@ -5,28 +5,24 @@ public class Festa {
 	private int id_local;
 	private int id_atividade;
 	private int nif;
-	private boolean entrada;
-	private int dia_festa;
-	private int mes_festa;
-	private int ano_festa;
-	private boolean pag_final;
+	private int entrada;
+	private String data_entrada;
+	private int pag_final;
 	private String convite;
 	private String decoracao;
 	private String comida;
 	private String tema;
 	private double preco;
 	private double preco_contratado;
-	protected Festa(int id_festa, int id_local, int id_atividade, int nif, boolean entrada, int dia_festa, int mes_festa,
-			int ano_festa, boolean pag_final, String convite, String decoracao, String comida, String tema, double preco, double preco_contratado) {
+	private String data_festa;
+	protected Festa(int id_festa, int id_local, int id_atividade, int nif, int entrada, String data_entrada, int pag_final, String convite, String decoracao, String comida, String tema, double preco, double preco_contratado,String data_festa) {
 		super();
 		this.id_festa = id_festa;
 		this.id_local = id_local;
 		this.id_atividade = id_atividade;
 		this.nif = nif;
 		this.entrada = entrada;
-		this.dia_festa = dia_festa;
-		this.mes_festa = mes_festa;
-		this.ano_festa = ano_festa;
+		this.data_entrada = data_entrada;
 		this.pag_final = pag_final;
 		this.convite = convite;
 		this.decoracao = decoracao;
@@ -34,6 +30,7 @@ public class Festa {
 		this.tema = tema;
 		this.preco = preco;
 		this.preco_contratado=preco_contratado;
+		this.data_festa=data_festa;
 	}
 	protected int getId_festa() {
 		return id_festa;
@@ -59,34 +56,33 @@ public class Festa {
 	protected void setNif(int nif) {
 		this.nif = nif;
 	}
-	protected boolean isEntrada() {
+	protected int isEntrada() {
 		return entrada;
 	}
-	protected void setEntrada(boolean entrada) {
+	
+	protected int getEntrada() {
+		return entrada;
+	}
+	protected void setEntrada(int entrada) {
 		this.entrada = entrada;
 	}
-	protected int getDia_festa() {
-		return dia_festa;
+
+	protected String getDataEntrada() {
+		return data_entrada;
 	}
-	protected void setDia_festa(int dia_festa) {
-		this.dia_festa = dia_festa;
+	protected void setDataEntrada(String data_entrada) {
+		this.data_entrada = data_entrada;
 	}
-	protected int getMes_festa() {
-		return mes_festa;
+	protected double getPreco_contratado() {
+		return preco_contratado;
 	}
-	protected void setMes_festa(int mes_festa) {
-		this.mes_festa = mes_festa;
+	protected void setPreco_contratado(double preco_contratado) {
+		this.preco_contratado = preco_contratado;
 	}
-	protected int getAno_festa() {
-		return ano_festa;
-	}
-	protected void setAno_festa(int ano_festa) {
-		this.ano_festa = ano_festa;
-	}
-	protected boolean getPag_final() {
+	protected int getPag_final() {
 		return pag_final;
 	}
-	protected void setPag_final(boolean pag_final) {
+	protected void setPag_final(int pag_final) {
 		this.pag_final = pag_final;
 	}
 	protected String getConvite() {
@@ -118,6 +114,12 @@ public class Festa {
 	}
 	protected void setPreco(double preco) {
 		this.preco = preco;
+	}
+	public String getData_festa() {
+		return data_festa;
+	}
+	public void setData_festa(String data_festa) {
+		this.data_festa = data_festa;
 	}
 	
 	
