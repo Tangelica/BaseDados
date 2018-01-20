@@ -80,7 +80,7 @@ public class Menu {
 		return op;
 	}
 	
-	//Imprime o menu de adicionar festas e retorna a opcao escolhida
+	//Imprime o menu de adicionar FESTAS e retorna a opcao escolhida
 	protected Festa adicionarFestas(){
 		Scanner sci = new Scanner(System.in);
 		Scanner scs = new Scanner(System.in);
@@ -151,6 +151,7 @@ public class Menu {
 		System.out.println("Ano da Festa:");
 		int ano_festa=sci.nextInt();
 		String data_festa=d.StringData(dia_festa, mes_festa, ano_festa);
+		
 		while (true){
 			System.out.println("Ja realizou o pagamento final?:");
 			String pfinal=scs.nextLine();
@@ -192,7 +193,7 @@ public class Menu {
 	protected int menuLocais() {
 		int op;
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Menu Clientes: \n1-Adicionar Local \n2-Remover Local \n3-Alterar dados de um local \n4-Listar todos locais \n5-Listar locais por tipo");
+		System.out.println("Menu Locais: \n1-Adicionar Local \n2-Remover Local \n3-Alterar dados de um local \n4-Listar todos locais \n5-Listar locais por tipo");
 		op=sc.nextInt();
 		return op;
 	}
@@ -242,7 +243,7 @@ public class Menu {
 	protected int menuAtividades() {
 		int op;
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Menu Clientes: \n1-Adicionar Atividade \n2-Remover Atividade \n3-Alterar dados de uma atividade \n4-Listar atividades");
+		System.out.println("Menu Atividades: \n1-Adicionar Atividade \n2-Remover Atividade \n3-Alterar dados de uma atividade \n4-Listar atividades");
 		op=sc.nextInt();
 		return op;
 	}
@@ -283,13 +284,14 @@ public class Menu {
 	protected int menuAniversariantes() {
 		int op;
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Aniversariantes: \n1-Adicionar Aniversariante \n2-Remover Aniversariante \n3-Alterar dados de um Aniversariante \n4-Listar Aniversariante por nome ");
+		System.out.println("Menu Aniversariantes: \n1-Adicionar Aniversariante \n2-Remover Aniversariante \n3-Alterar dados de um Aniversariante  \n4-Listar todos os aniversariantes \n5-Listar Aniversariante por nome ");
 		op=sc.nextInt();
 		return op;
 	}
+	
 	//Imprime adicionar Aniversariantes
 	protected Aniversariante adicionarAniversariantes() {
-		Aniversariante c1 = null;
+		Aniversariante an1 = null;
 		Scanner sci = new Scanner(System.in);
 		Scanner scs = new Scanner(System.in);
 		int id_aniversariante;
@@ -311,14 +313,23 @@ public class Menu {
 		int mes= sci.nextInt();
 		System.out.println("Insira ano de nascimento");
 		int ano =sci.nextInt();
+		String data_nascimento=d.StringData(dia, mes, ano);
 		//acrecentar data
-		int data= 2;
-		//c1 = new Aniversariante(id_aniversariante, idade, nome, data, alergia); //criar classe aniversariante
+		 an1 = new Aniversariante(id_aniversariante, idade, nome, alergia ,data_nascimento); //criar classe aniversariante
 		
-		
-		return c1; //Devolve o Aniversariante criado.
+		return an1; //Devolve o Aniversariante criado.
 		}
-
+	//Alterar parametros ANIVERSARIANTE
+	protected int menuAlterarAniversariantes() {
+		int op;
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Menu Alterar Dados Aniversariante: \n1-Nome");
+		op=sc.nextInt();
+		return op;
+	}
+	
+	//Listar todos
+	//Listar por nome
 	//Imprime o menu Gestão de Preferencias
 	protected int menuPreferencias() {
 		int op;
